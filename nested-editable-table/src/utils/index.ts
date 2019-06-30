@@ -1,0 +1,173 @@
+import uniqid from "uniqid";
+
+export const validateIP = (ip: string) => {
+  if (
+    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+      ip
+    )
+  ) {
+    return true;
+  }
+  return false;
+};
+export const validatePort = (port: number) => {
+  if (
+    /^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$/.test(
+      port.toString()
+    )
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const createNewParentObject = () => {
+  const parent = [
+    ...JSON.parse(localStorage.getItem("parent") || "[]"),
+    {
+      key: uniqid(),
+      name: "",
+      ip: "",
+      protocol: "",
+      port: 0,
+      editable: false
+    }
+  ];
+  localStorage.setItem("parent", JSON.stringify(parent));
+  return parent;
+};
+
+export const storeData = (key: string, data: any) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const removeData = (key: string, parent: any, child: any) =>{
+  let newChild = child && child.filter((x: any) => x.parentId !== key);
+  let newParent = parent.filter((x: any) => x.key !== key);
+  storeData("parent", newParent);
+  storeData("child", newChild);
+  return {newChild,newParent};
+};
+export const removeChildData = (key: string, child: any) =>{
+  let newChild = child && child.filter((x: any) => x.key !== key);
+  storeData("child", newChild);
+  return newChild;
+};
+
+export const createNewChildObject = (parentId: string) => {
+  const child = [
+    ...JSON.parse(localStorage.getItem("child") || "[]"),
+    {
+      key: uniqid(),
+      port: 0,
+      protocol: "",
+      parentId: parentId,
+      editable: false
+    }
+  ];
+  localStorage.setItem("child", JSON.stringify(child));
+  return updateData(child, parentId);
+};
+export const handleChange = (
+  key: any,
+  value: any,
+  callback: any,
+  type: string
+) => {
+  const field = key.field ? key.field.split("-")[0] : "";
+  const record = JSON.parse(localStorage.getItem(type) || "[]");
+  console.log(field, record, key);
+  if (record[field] !== value) {
+    if (["name", "ip"].includes(field)) {
+      if (isValueExist(record, field, value)) {
+        callback(`${field === "ip" ? "IP address" : field} already exists`);
+        return;
+      }
+
+      if (field === "ip") {
+        if (!validateIP(value)) {
+          callback(`Invalid IP address`);
+        }
+      }
+    }
+
+    if (["protocol", "port"].includes(field)) {
+      // const key = JSON.parse(localStorage.getItem("selectedRow")||"[]").key;
+      // let child=JSON.parse(localStorage.getItem("child")||"[]");
+      // child=child.filter((x:any)=>x.parentId===key);
+      // const index = JSON.parse(localStorage.getItem("selectedInnerRow")||"[]").rowIndex;
+      // const mainArray=child.map((x:any)=>({protocol:x.protocol,port:x.port}));
+      // const checkObject={protocol:child[index].protocol,port:child[index].port}
+      // console.log("====================",checkObject,mainArray,isObjectExist(mainArray,checkObject));
+      // if (isValueExist(record, field, value)) {
+      //console.log("====================")
+      //callback(`${field === "ip" ? "IP address" : field} already exists`);
+      //}
+      // if (field === "ip") {
+      //   if (!validateIP(value)) {
+      //     callback(`Invalid IP address`);
+      //   }
+      // }
+    }
+  }
+  callback();
+};
+
+export const getRules = (type: string, message: string) => {
+  return [
+    {
+      required: true,
+      message
+    },
+    {
+      validator: (
+        key: any,
+        value: any,
+        callback: any,
+        source: any,
+        options: any
+      ) => {
+        console.log(options, source);
+        handleChange(key, value, callback, type);
+      }
+    }
+  ];
+};
+
+export const dataSource = (key: string) =>
+  localStorage.getItem(key)
+    ? JSON.parse(localStorage.getItem(key) || "[]")
+    : [];
+
+export const updateData = (data: any, key?: string) => {
+  return data.map((x: any, i: number) => {
+    key?((x.parentId
+    ? x.parentId === key
+    : x.key === key)
+      ? (x.editable = true)
+      : (x.editable = false)):x.editable = false
+    return x;
+  });
+
+  // localStorage.setItem(
+  //   "parent",
+  //   JSON.stringify(
+  //     localStorage.getItem("parent")
+  //       ? JSON.parse(localStorage.getItem("parent") || "[]").map((x: any) => {
+  //           x.editable = true;
+  //           return x;
+  //         })
+  //       : []
+  //   )
+};
+
+export const isObjectExist = (collection: any, source: any) => {
+  const keys = Object.keys(source);
+  return collection.filter((c: any) => keys.every(k => c[k] === source[k]))
+    .length;
+};
+
+export const isValueExist = (collection: any, key: string, value: any) => {
+  const mappedData = collection.map((c: any) => c[key]);
+  return mappedData.length ? mappedData.includes(value) : false;
+};

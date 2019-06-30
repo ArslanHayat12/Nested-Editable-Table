@@ -1,0 +1,44 @@
+.header{
+  font-size: large;
+  color: azure;
+  background: #6bb3e4
+}
+
+tr[class="ant-table-expanded-row ant-table-expanded-row-level-1"] td[colspan="4"] {
+  padding: 0;
+  background: #e8e8e8;
+ }
+.ant-table-thead > tr > th, .ant-table-tbody > tr {
+  padding: 16px 16px;
+}
+.content{
+  background-color:azure ;
+  height: -webkit-fill-available;
+}
+
+.footer {
+  position: fixed;
+  height: 50px;
+  background: #6bb3e4;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+  color: azure;
+  font-size: large;
+}
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell-value-wrap {
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.editable-row .editable-cell-value-wrap {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 4px 11px;
+}
