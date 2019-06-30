@@ -6,13 +6,11 @@ import { WrappProps } from "../types/";
 import { AppContext } from "../context/";
 function noop() {}
 
-const btnDefaultProps = { text: "Add", style: { marginTop: 10 } };
 
 const Editable: FC<WrappProps> = ({
   dataSource = [],
   columns = [],
   form,
-  btnProps = btnDefaultProps,
   onCellChange = noop,
   onSubmit,
   ...resProps
@@ -25,13 +23,9 @@ const Editable: FC<WrappProps> = ({
     form,
     resProps
   );
-
-  // const { text: btnText, ...restBtnProps } = btnProps;
-
-  // function handleSubmit() {
-  //   if (onSubmit) onSubmit(cacheSource);
-  // }
   const [state, setState] = useState(cacheSource);
+  
+  
   useEffect(() => {
     setState(cacheSource);
   }, [cacheSource]);
@@ -42,7 +36,7 @@ const Editable: FC<WrappProps> = ({
         className="editable"
         dataSource={state}
         columns={editColumns}
-        rowClassName={() => "editable-row"}
+        // rowClassName={() => "editable-row"}
         expandedRowKeys={[content.selectedRow && content.selectedRow.key]}
         onExpand={(expand: any, record: any) => {
           if (expand)
@@ -52,7 +46,7 @@ const Editable: FC<WrappProps> = ({
         {...resProps}
         pagination={false}
       />
-      {console.log(content)}
+
       {resProps.isChild && content.isEdit && content.selectedRow.key ? (
         <Button onClick={() => resProps.handleAddRow()}>Add</Button>
       ) : null}

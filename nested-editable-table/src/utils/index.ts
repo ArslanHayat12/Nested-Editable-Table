@@ -48,6 +48,7 @@ export const removeData = (key: string, parent: any, child: any) =>{
   storeData("child", newChild);
   return {newChild,newParent};
 };
+
 export const removeChildData = (key: string, child: any) =>{
   let newChild = child && child.filter((x: any) => x.key !== key);
   storeData("child", newChild);

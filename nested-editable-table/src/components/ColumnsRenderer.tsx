@@ -1,7 +1,7 @@
 import React from "react";
-import { EditableColumn } from "../interfaces/";
-import { CellType } from "../types/";
-import Cell from "./Cell";
+import { EditableColumn } from "../interfaces";
+import { CellType } from "../types";
+import EditableCell from "./EditableCell";
 import { hasData } from "./utils";
 import { Row, Col, Button,Icon } from "antd";
 
@@ -13,13 +13,13 @@ export default <T extends object>(
   resProps: any
 ) => {
   const dataIndexMap: string[] = [];
-  const loopColumns = (lColumns: Array<EditableColumn<T>>): T[] => {
-    return lColumns.map((item: any) => {
+  const mappedColumnsList = (columnsList: Array<EditableColumn<T>>): T[] => {
+    return columnsList.map((item: any) => {
       if (item.children) {
         const { children, ...resCol } = item;
         return {
           ...resCol,
-          children: loopColumns(children)
+          children: mappedColumnsList(children)
         };
       } else {
         const {
@@ -63,7 +63,7 @@ export default <T extends object>(
                 record,
                 resProps
               };
-              return <Cell {...cellprops} />;
+              return <EditableCell {...cellprops} />;
             }
             return (
               <div>
@@ -97,7 +97,7 @@ export default <T extends object>(
     });
   };
   return {
-    editColumns: loopColumns(columns),
+    editColumns: mappedColumnsList(columns),
     dataIndexMap
   };
 };

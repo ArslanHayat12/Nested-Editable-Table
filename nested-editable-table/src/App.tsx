@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import { Layout } from "antd";
 import "antd/dist/antd.css";
 import "./styles/index.css";
-import Example from "./components/Example";
+import Example from "./components/ExpandableTable";
 import { reducer } from "./reducer/";
 import { initialContent, AppContext } from "./context/";
 const { Header, Footer, Content } = Layout;

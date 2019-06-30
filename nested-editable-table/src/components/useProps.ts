@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import computedEditColumns from "./computedEditColumns";
+import computedEditColumns from "./ColumnsRenderer";
 import { CellType } from "../types/";
 import { EditableColumn } from "../interfaces/";
 

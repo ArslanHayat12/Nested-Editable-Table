@@ -4,7 +4,7 @@ import { CellProps } from "../interfaces/index";
 
 const Item = Form.Item;
 const { Option } = Select;
-const Cell: FC<CellProps> = ({
+const EditableCell: FC<CellProps> = ({
   form,
   dataIndex,
   rowIndex,
@@ -118,4 +118,4 @@ const Cell: FC<CellProps> = ({
     </div>
   );
 };
-export default Cell;
+export default EditableCell;

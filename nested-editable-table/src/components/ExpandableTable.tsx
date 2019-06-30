@@ -10,11 +10,11 @@ import {
   storeData,
   removeData,
   removeChildData
-} from "../utils/";
+} from "../utils";
 import "../styles/index.css";
-import { AppContext } from "../context/";
+import { AppContext } from "../context";
 
-const Example = () => {
+const ExpandableTable = () => {
   const { content, dispatch } = useContext(AppContext);
   
   const handleCellChange = (parent: any) => {
@@ -157,4 +157,4 @@ const Example = () => {
   );
 };
 
-export default Example;
+export default ExpandableTable;
