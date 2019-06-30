@@ -4,14 +4,12 @@ import useProps from "./useProps";
 import EditableWrapper from "./style/EditableWrapper";
 import { WrappProps } from "../types/";
 import { AppContext } from "../context/";
-function noop() {}
-
 
 const Editable: FC<WrappProps> = ({
   dataSource = [],
   columns = [],
   form,
-  onCellChange = noop,
+  onCellChange = ()=>{},
   onSubmit,
   ...resProps
 }) => {

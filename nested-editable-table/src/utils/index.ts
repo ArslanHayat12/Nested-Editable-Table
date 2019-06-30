@@ -41,15 +41,15 @@ export const storeData = (key: string, data: any) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const removeData = (key: string, parent: any, child: any) =>{
+export const removeData = (key: string, parent: any, child: any) => {
   let newChild = child && child.filter((x: any) => x.parentId !== key);
   let newParent = parent.filter((x: any) => x.key !== key);
   storeData("parent", newParent);
   storeData("child", newChild);
-  return {newChild,newParent};
+  return { newChild, newParent };
 };
 
-export const removeChildData = (key: string, child: any) =>{
+export const removeChildData = (key: string, child: any) => {
   let newChild = child && child.filter((x: any) => x.key !== key);
   storeData("child", newChild);
   return newChild;
@@ -142,24 +142,23 @@ export const dataSource = (key: string) =>
 
 export const updateData = (data: any, key?: string) => {
   return data.map((x: any, i: number) => {
-    key?((x.parentId
-    ? x.parentId === key
-    : x.key === key)
-      ? (x.editable = true)
-      : (x.editable = false)):x.editable = false
+    key
+      ? (x.parentId
+        ? x.parentId === key
+        : x.key === key)
+        ? (x.editable = true)
+        : (x.editable = false)
+      : (x.editable = false);
     return x;
   });
+};
 
-  // localStorage.setItem(
-  //   "parent",
-  //   JSON.stringify(
-  //     localStorage.getItem("parent")
-  //       ? JSON.parse(localStorage.getItem("parent") || "[]").map((x: any) => {
-  //           x.editable = true;
-  //           return x;
-  //         })
-  //       : []
-  //   )
+export const hasData = (data: any) => {
+  if (data == null || data === "") {
+    return "";
+  } else {
+    return data;
+  }
 };
 
 export const isObjectExist = (collection: any, source: any) => {

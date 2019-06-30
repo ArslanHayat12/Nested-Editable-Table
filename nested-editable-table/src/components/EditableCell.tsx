@@ -19,7 +19,7 @@ const EditableCell: FC<CellProps> = ({
   resProps
 }) => {
   const isEditing: boolean = true;
-  //const { content } = useContext(AppContext);
+  
   const handleSetCurCell = () => {
     onSetCurCell({
       dataIndex,
@@ -64,7 +64,7 @@ const EditableCell: FC<CellProps> = ({
     );
   };
 
-  const stockCell = (
+  const cellContent = (
     <div className="editable-cell-value-wrap">{initialValue}</div>
   );
 
@@ -86,7 +86,7 @@ const EditableCell: FC<CellProps> = ({
                     }}
                   />
                 ) : (
-                  stockCell
+                  cellContent
                 )
               )}
             </Item>
@@ -112,7 +112,7 @@ const EditableCell: FC<CellProps> = ({
           {form.getFieldDecorator(`${dataIndex}-${rowIndex}`, {
             initialValue: initialValue === "--" ? "" : initialValue,
             rules
-          })(isEditing ? getInput() : stockCell)}
+          })(isEditing ? getInput() : cellContent)}
         </Item>
       )}
     </div>
