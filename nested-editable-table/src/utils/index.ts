@@ -104,7 +104,6 @@ export const handleChange = (
     let child = mappedData(content.child, "parentId", content.selectedRow.key);
     let ojectToBeChecked = <any>{};
     let mergedData = [...parent, ...child];
-    console.log(content.selectedRow.key);
     if (type === "parent") {
       ojectToBeChecked = parent[0];
       ojectToBeChecked[field] = value;

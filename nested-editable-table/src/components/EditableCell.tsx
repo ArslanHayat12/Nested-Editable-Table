@@ -71,7 +71,6 @@ const EditableCell: FC<CellProps> = ({
     form.validateFields(
       [`${dataIndex}-${rowIndex}`,`protocol-${rowIndex}`,`ip-${rowIndex}`,`port-${rowIndex}`],
       (err: object) => {
-        console.log(err)
         if (!err) {
           onSetCurCell(null);
           handleSave(key);

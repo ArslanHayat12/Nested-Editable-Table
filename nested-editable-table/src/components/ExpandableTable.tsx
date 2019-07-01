@@ -139,12 +139,9 @@ const ExpandableTable = () => {
         bordered
         isChild={false}
         expandedRowRender={(object: any) => {
-          const childData =
-            content.child &&
-            content.child.filter((x: any) => x.parentId === object.key);
           return ExpandedRowRenderer({
             childColumns,
-            childData,
+            childData:content.child,
             handleAddRow,
             object,
             childCellChange
