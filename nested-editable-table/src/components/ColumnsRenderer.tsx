@@ -2,7 +2,7 @@ import React from "react";
 import { EditableColumn } from "../interfaces";
 import { CellType } from "../types";
 import EditableCell from "./EditableCell";
-import { hasData } from "../utils/";
+import { hasData } from "../utils";
 import { Row, Col, Button,Icon } from "antd";
 
 export default <T extends object>(

@@ -69,67 +69,76 @@ export const createNewChildObject = (parentId: string) => {
   localStorage.setItem("child", JSON.stringify(child));
   return updateData(child, parentId);
 };
+export const mappedData = (collection: any, field: string, key: string) => {
+  return collection
+    .filter((x: any) => x[field] === key)
+    .map((x: any) => ({ protocol: x.protocol, port: x.port }));
+};
 export const handleChange = (
   key: any,
   value: any,
   callback: any,
-  type: string
+  type: string,
+  content: any
 ) => {
   const field = key.field ? key.field.split("-")[0] : "";
-  const record = JSON.parse(localStorage.getItem(type) || "[]");
-  console.log(field, record, key);
-  if (record[field] !== value) {
-    if (["name", "ip"].includes(field)) {
-      if (isValueExist(record, field, value)) {
-        callback(`${field === "ip" ? "IP address" : field} already exists`);
-        return;
-      }
+  const rowIndex = key.field ? key.field.split("-")[1] : "0";
+  const record = content.parent.filter(
+    (x: any) => x.key !== content.selectedRow.key
+  );
 
-      if (field === "ip") {
-        if (!validateIP(value)) {
-          callback(`Invalid IP address`);
-        }
-      }
+  if (["name", "ip"].includes(field)) {
+    if (isValueExist(record, field, value)) {
+      callback(`${field === "ip" ? "IP address" : field} already exists`);
     }
 
-    if (["protocol", "port"].includes(field)) {
-      // const key = JSON.parse(localStorage.getItem("selectedRow")||"[]").key;
-      // let child=JSON.parse(localStorage.getItem("child")||"[]");
-      // child=child.filter((x:any)=>x.parentId===key);
-      // const index = JSON.parse(localStorage.getItem("selectedInnerRow")||"[]").rowIndex;
-      // const mainArray=child.map((x:any)=>({protocol:x.protocol,port:x.port}));
-      // const checkObject={protocol:child[index].protocol,port:child[index].port}
-      // console.log("====================",checkObject,mainArray,isObjectExist(mainArray,checkObject));
-      // if (isValueExist(record, field, value)) {
-      //console.log("====================")
-      //callback(`${field === "ip" ? "IP address" : field} already exists`);
-      //}
-      // if (field === "ip") {
-      //   if (!validateIP(value)) {
-      //     callback(`Invalid IP address`);
-      //   }
-      // }
+    if (field === "ip") {
+      if (!validateIP(value)) {
+        callback(`Invalid IP address`);
+      }
+    }
+  }
+
+  if (["protocol", "port"].includes(field)) {
+    const parent = mappedData(content.parent, "key", content.selectedRow.key);
+    let child = mappedData(content.child, "parentId", content.selectedRow.key);
+    let ojectToBeChecked = <any>{};
+    let mergedData = [...parent, ...child];
+    console.log(content.selectedRow.key);
+    if (type === "parent") {
+      ojectToBeChecked = parent[0];
+      ojectToBeChecked[field] = value;
+      mergedData = [...child];
+    } else {
+      ojectToBeChecked = child[parseInt(rowIndex)];
+      ojectToBeChecked[field] = value;
+      child = child.filter((x: any, i: number) => i !== parseInt(rowIndex));
+      mergedData = [...parent, ...child];
+    }
+
+    if (field === "port") {
+      if (parseInt(value) <= 0) {
+        callback(`Invalid Port`);
+      }
+    }
+    if (isObjectExist(mergedData, ojectToBeChecked)) {
+      callback(`Record Already Exists`);
     }
   }
   callback();
 };
 
-export const getRules = (type: string, message: string) => {
+export const getRules = (type: string, message: string, content: any) => {
   return [
     {
       required: true,
       message
     },
     {
-      validator: (
-        key: any,
-        value: any,
-        callback: any,
-        source: any,
-        options: any
-      ) => {
-        console.log(options, source);
-        handleChange(key, value, callback, type);
+      validator: (key: any, value: any, callback: any) => {
+        if (content.selectedRow.key)
+         return handleChange(key, value, callback, type, content);
+        else return true;
       }
     }
   ];

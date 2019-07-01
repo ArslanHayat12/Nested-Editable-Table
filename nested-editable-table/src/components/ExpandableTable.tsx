@@ -48,28 +48,28 @@ const ExpandableTable = () => {
       dataIndex: "name",
       key: "name",
       width: "25%",
-      rules: getRules("parent", "Please enter rule name!")
+      rules: getRules("parent", "Please enter rule name!",content)
     },
     {
       title: "IP Address",
       dataIndex: "ip",
       key: "ip",
       width: "25%",
-      rules: getRules("parent", "Please enter IP address!")
+      rules: getRules("parent", "Please enter IP address!",content)
     },
     {
       title: "Protocol",
       dataIndex: "protocol",
       key: "protocol",
-      width: "25%"
-      //rules: getRules("parent", "Please select protocol!")
+      width: "25%",
+      rules: getRules("parent", "Please select protocol!",content)
     },
     {
       title: "Port",
       dataIndex: "port",
       key: "port",
       width: "25%",
-      //      rules: getRules("parent", "Please enter port number!"),
+      rules: getRules("parent", "Please enter port number!",content),
       handleEdit: (key: any) => {
         dispatch({
           type: "UPDATE_DATA",
@@ -92,7 +92,7 @@ const ExpandableTable = () => {
         });
       },
       handleSave: () => {
-        
+        console.log("============")
         updateData(content.parent);
         updateData(content.child);
         storeData("parent", content.parent);
@@ -113,15 +113,14 @@ const ExpandableTable = () => {
       dataIndex: "protocol",
       key: "protocol",
       width: "25%",
-      rules: getRules("child", "Please select protocol!")
+      rules: getRules("child", "Please select protocol!",content)
     },
     {
       title: "Port",
       dataIndex: "port",
       key: "port",
       width: "25%",
-      rules: getRules("child", "Please enter port number!"),
-    
+      rules: getRules("child", "Please enter port number!",content),
       handleDelete: (key: string) => {
         dispatch({
           type: "UPDATE_DATA",

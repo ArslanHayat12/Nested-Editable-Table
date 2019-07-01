@@ -1,8 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import computedEditColumns from "./ColumnsRenderer";
+import ColumnsRenderer from "./ColumnsRenderer";
 import { CellType } from "../types/";
 import { EditableColumn } from "../interfaces/";
-
 
 const useProps = <T extends object>(
   dataSource: T[],
@@ -22,7 +21,7 @@ const useProps = <T extends object>(
 
   // Use useMemo to cache editColumns and dataIndexMap. Updated only after changes to columns and curCell
   const { editColumns } = useMemo(
-    () => computedEditColumns(columns, curCell, handleSetCurCell, form,resProps),
+    () => ColumnsRenderer(columns, curCell, handleSetCurCell, form,resProps),
     [columns, curCell]
   );
 
@@ -33,7 +32,6 @@ const useProps = <T extends object>(
       const { dataIndex, rowIndex } = beforeCell.current;
       const value = form.getFieldValue(`${dataIndex}-${rowIndex}`);
       const nextSource = [...cacheSource];
-      console.log(nextSource,cacheSource,curCell)
       nextSource[rowIndex][dataIndex] = value;
       setCacheSource(nextSource);
       onCellChange(nextSource);
@@ -65,7 +63,7 @@ const useDataSource = (dataSource: any[], form: any) => {
   // External dataSource updates the value of the dataSource and form fields of the synchronous update cache
   useEffect(() => {
     setCacheSource(dataSource);
-    //form.resetFields();
+    form.resetFields();
   }, [dataSource]);
 
   return {

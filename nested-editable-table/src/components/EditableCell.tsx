@@ -56,7 +56,6 @@ const EditableCell: FC<CellProps> = ({
     form.validateFields(
       [`${dataIndex}-${rowIndex}`],
       (err: object, data: any) => {
-        console.log(data);
         if (!err) {
           onSetCurCell(null);
         }
@@ -64,12 +63,29 @@ const EditableCell: FC<CellProps> = ({
     );
   };
 
+  const handleSubmit=(key:string)=>{
+    onSetCurCell({
+      dataIndex,
+      rowIndex
+    });
+    form.validateFields(
+      [`${dataIndex}-${rowIndex}`,`protocol-${rowIndex}`,`ip-${rowIndex}`,`port-${rowIndex}`],
+      (err: object) => {
+        console.log(err)
+        if (!err) {
+          onSetCurCell(null);
+          handleSave(key);
+        }
+      }
+    );
+  }
   const cellContent = (
     <div className="editable-cell-value-wrap">{initialValue}</div>
   );
 
   return (
     <div style={{ textAlign: "left" }}>
+       
       {dataIndex === "port" ? (
         <Row>
           <Col span={16}>
@@ -99,7 +115,8 @@ const EditableCell: FC<CellProps> = ({
           ) : (
             <Fragment>
               <Col span={4}>
-                <Button onClick={() => handleSave(record.key)}><Icon type="check" /></Button>
+                <Button onClick={() => handleSubmit(record.key)}><Icon type="check" /></Button>
+               
               </Col>
               <Col span={4}>
                 <Button onClick={() => handleCancel(record.key)}><Icon type="close" /></Button>
