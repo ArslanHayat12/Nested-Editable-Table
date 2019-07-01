@@ -36,9 +36,8 @@ const Editable: FC<WrappProps> = ({
         // rowClassName={() => "editable-row"}
         expandedRowKeys={[content.selectedRow && content.selectedRow.key]}
         onExpand={(expand: any, record: any) => {
-          if (expand || (!expand && content.isEdit ))
-            dispatch({ type: "UPDATE_DATA", selectedRow: { key: record.key } });
-          else dispatch({ type: "UPDATE_DATA", selectedRow: { key: "" } });
+          const key = expand || (!expand && content.isEdit ) ? record.key: ''
+          dispatch({ type: "UPDATE_DATA", selectedRow: { key } })
         }}
         {...resProps}
         pagination={false}
