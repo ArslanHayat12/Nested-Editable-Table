@@ -11,13 +11,13 @@ const App: React.FC = () => {
   const [content, dispatch] = useReducer(reducer, initialContent);
   return (
     <Layout>
-      <Header className="header">Header</Header>
+      <Header className="header">Editable Expandable Table</Header>
       <Content>
         <AppContext.Provider value={{ content, dispatch }}>
           <Example />
         </AppContext.Provider>
       </Content>
-      <Footer className="footer">Footer</Footer>
+      <Footer className="footer"></Footer>
     </Layout>
   );
 };
