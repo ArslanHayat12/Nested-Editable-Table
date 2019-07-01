@@ -102,7 +102,7 @@ export const handleChange = (
   if (["protocol", "port"].includes(field)) {
     const parent = mappedData(content.parent, "key", content.selectedRow.key);
     let child = mappedData(content.child, "parentId", content.selectedRow.key);
-    let ojectToBeChecked = <any>{};
+    let ojectToBeChecked:any = {};
     let mergedData = [...parent, ...child];
     if (type === "parent") {
       ojectToBeChecked = parent[0];

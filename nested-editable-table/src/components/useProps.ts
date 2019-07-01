@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ColumnsRenderer from "./ColumnsRenderer";
 import { CellType } from "../types/";
 import { EditableColumn } from "../interfaces/";
@@ -16,9 +16,6 @@ const useProps = <T extends object>(
   // Internally maintained dataSource
   const { cacheSource, setCacheSource } = useDataSource(dataSource, form);
 
-  // Record each updated cell with ref
-  const beforeCell = useRef<CellType>(null);
-
   // Use useMemo to cache editColumns and dataIndexMap. Updated only after changes to columns and curCell
   const { editColumns } = useMemo(
     () => ColumnsRenderer(columns, curCell, handleSetCurCell, form,resProps),
@@ -28,24 +25,23 @@ const useProps = <T extends object>(
 
   // Change the cached dataSource whenever the curCell changes. And execute onCellChange
   useEffect(() => {
-    if (beforeCell && beforeCell.current) {
-      const { dataIndex, rowIndex } = beforeCell.current;
+    if (curCell) {
+      const { dataIndex, rowIndex } = curCell;
       const value = form.getFieldValue(`${dataIndex}-${rowIndex}`);
       const nextSource = [...cacheSource];
+      console.log(nextSource,cacheSource)
       nextSource[rowIndex][dataIndex] = value;
       setCacheSource(nextSource);
       onCellChange(nextSource);
     }
-
-    // Reset the value of the Ref record
-    beforeCell.current = curCell;
   }, [curCell]);
 
   function handleSetCurCell(nextCell: CellType) {
     // If the current cell has an error, it is forbidden to switch.
+    setCurCell(nextCell);
     if (
       !curCell ||
-      !form.getFieldError(`${curCell!.dataIndex}-${curCell!.rowIndex}`)
+      !form.getFieldError(`${curCell.dataIndex}-${curCell.rowIndex}`)
     ) {
       setCurCell(nextCell);
     }
@@ -63,7 +59,7 @@ const useDataSource = (dataSource: any[], form: any) => {
   // External dataSource updates the value of the dataSource and form fields of the synchronous update cache
   useEffect(() => {
     setCacheSource(dataSource);
-    form.resetFields();
+   // form.resetFields();
   }, [dataSource]);
 
   return {
