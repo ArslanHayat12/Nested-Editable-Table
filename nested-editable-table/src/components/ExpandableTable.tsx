@@ -130,7 +130,7 @@ const ExpandableTable = () => {
   ];
   return (
     <Fragment>
-      <Button disabled={content.isEdit} onClick={addRow}>Add New Row </Button>
+      <Button className="button" type="dashed" disabled={content.isEdit} onClick={addRow}>Add New Row </Button>
       <Editable
         dataSource={content.parent || []}
         columns={columns}

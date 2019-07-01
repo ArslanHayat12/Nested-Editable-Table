@@ -27,7 +27,9 @@ tr[class="ant-table-expanded-row ant-table-expanded-row-level-1"] td[colspan="4"
   color: azure;
   font-size: large;
 }
-
+.button{
+  margin:10px ;
+}
 .editable-cell {
   position: relative;
 }
@@ -41,4 +43,21 @@ tr[class="ant-table-expanded-row ant-table-expanded-row-level-1"] td[colspan="4"
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   padding: 4px 11px;
+}
+
+.button-danger{
+  background: #f5222d;
+  color:#ffff;
+}
+.button-warning{
+  background: #fadb14;
+  color:#ffff;
+}
+.button-success{
+  background: #52c41a;
+  color:#ffff;
+}
+.button-primary{
+  background: #6bb3e4;
+  color:#ffff;
 }

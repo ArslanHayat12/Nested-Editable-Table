@@ -1,7 +1,7 @@
 import React, { FC, Fragment } from "react";
 import { Input, Form, Select, InputNumber, Button, Row, Col, Icon } from "antd";
 import { CellProps } from "../interfaces/index";
-
+import "../styles/index.css";
 const Item = Form.Item;
 const { Option } = Select;
 const EditableCell: FC<CellProps> = ({
@@ -108,19 +108,19 @@ const EditableCell: FC<CellProps> = ({
 
           {resProps.isChild ? (
             <Col span={4}>
-              <Button onClick={() => handleDelete(record.key)}>
+              <Button className="button-danger" onClick={() => handleDelete(record.key)}>
                 <Icon type="delete" />
               </Button>
             </Col>
           ) : (
             <Fragment>
-              <Col span={4}>
-                <Button onClick={() => handleSubmit(record.key)}>
+              <Col span={3}>
+                <Button className="button-success" onClick={() => handleSubmit(record.key)}>
                   <Icon type="check" />
                 </Button>
               </Col>
-              <Col span={4}>
-                <Button onClick={() => handleCancel(record.key)}>
+              <Col span={3}>
+                <Button className="button-warning" onClick={() => handleCancel(record.key)}>
                   <Icon type="close" />
                 </Button>
               </Col>

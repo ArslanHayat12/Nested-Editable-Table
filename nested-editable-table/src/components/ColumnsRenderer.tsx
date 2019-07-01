@@ -3,7 +3,8 @@ import { EditableColumn } from "../interfaces";
 import { CellType } from "../types";
 import EditableCell from "./EditableCell";
 import { hasData } from "../utils";
-import { Row, Col, Button,Icon } from "antd";
+import { Row, Col, Button, Icon } from "antd";
+import "../styles/index.css";
 
 export default <T extends object>(
   columns: Array<EditableColumn<T>>,
@@ -72,6 +73,7 @@ export default <T extends object>(
                     <Col span={16}>{initialValue}</Col>
                     <Col span={3}>
                       <Button
+                        className="button-primary"
                         onClick={() => {
                           handleEdit(record.key);
                         }}
@@ -80,8 +82,11 @@ export default <T extends object>(
                       </Button>
                     </Col>
                     <Col span={3}>
-                      <Button onClick={() => handleDelete(record.key)}>
-                      <Icon type="delete" />
+                      <Button
+                        className="button-danger"
+                        onClick={() => handleDelete(record.key)}
+                      >
+                        <Icon type="delete" />
                       </Button>
                     </Col>
                   </Row>
