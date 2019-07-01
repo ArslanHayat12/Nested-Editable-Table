@@ -38,7 +38,7 @@ const useProps = <T extends object>(
 
   function handleSetCurCell(nextCell: CellType) {
     // If the current cell has an error, it is forbidden to switch.
-    setCurCell(nextCell);
+    //setCurCell(nextCell);
     if (
       !curCell ||
       !form.getFieldError(`${curCell.dataIndex}-${curCell.rowIndex}`)
