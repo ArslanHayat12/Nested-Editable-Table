@@ -92,7 +92,6 @@ const ExpandableTable = () => {
         });
       },
       handleSave: () => {
-        console.log("============")
         updateData(content.parent);
         updateData(content.child);
         storeData("parent", content.parent);
